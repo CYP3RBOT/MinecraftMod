@@ -1,5 +1,6 @@
 package com.mateo.tutorialmod;
 
+import com.mateo.tutorialmod.block.ModBlocks;
 import com.mateo.tutorialmod.item.ModItems;
 import com.mojang.logging.LogUtils;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -30,7 +31,10 @@ public class TutorialMod {
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
+
         ModItems.register(modEventBus);
+        ModBlocks.register(modEventBus);
+
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
 
@@ -49,6 +53,11 @@ public class TutorialMod {
         if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
             event.accept(ModItems.ALEXANDRITE);
             event.accept(ModItems.RAW_ALEXANDRITE);
+        }
+
+        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
+            event.accept(ModBlocks.ALEXANDRITE_BLOCK);
+            event.accept(ModBlocks.RAW_ALEXANDRITE_BLOCK);
         }
     }
 
