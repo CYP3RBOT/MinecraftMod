@@ -1,9 +1,9 @@
 package com.mateo.tutorialmod;
 
+import com.mojang.logging.LogUtils;
 import com.mateo.tutorialmod.block.ModBlocks;
 import com.mateo.tutorialmod.item.ModCreativeModeTabs;
 import com.mateo.tutorialmod.item.ModItems;
-import com.mojang.logging.LogUtils;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -29,35 +29,33 @@ public class TutorialMod {
 
     public TutorialMod() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
-        // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
-
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
 
+        ModCreativeModeTabs.register(modEventBus);
+
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
-        ModCreativeModeTabs.register(modEventBus);
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
-
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event) {
+    private void commonSetup(final FMLCommonSetupEvent event)  {
+
     }
 
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
-        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
+        if(event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
             event.accept(ModItems.ALEXANDRITE);
             event.accept(ModItems.RAW_ALEXANDRITE);
         }
 
-        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
+        if(event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
             event.accept(ModBlocks.ALEXANDRITE_BLOCK);
             event.accept(ModBlocks.RAW_ALEXANDRITE_BLOCK);
         }
@@ -66,6 +64,7 @@ public class TutorialMod {
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
+
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
@@ -73,6 +72,7 @@ public class TutorialMod {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
+
         }
     }
 }
